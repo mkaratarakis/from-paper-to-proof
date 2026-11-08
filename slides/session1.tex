@@ -19,16 +19,18 @@
 \sessionplan{1}
 
 \vspace{0.4em}
-Each session: a lecture with live demonstrations in Lean. You redo them, and the exercises, at home.
+Each session is a lecture, with me doing things live in Lean. You don't need a laptop here. At home, you redo what I did and try the exercises.
 \end{frame}
 
 %----------------------------------------------------------------------------
 \begin{frame}[fragile]{What formalizing means}
+Formalizing a piece of mathematics means writing it, definitions, statements and proofs, in a language a computer can read, and having the computer check every step.
+
+\vspace{0.6em}
 \begin{itemize}
-\item Writing definitions, statements and proofs in a language a computer can read.
-\item Every step of the proof is checked by a program, Lean, down to the axioms.
-\item Building on a shared library, Mathlib: the basic definitions and theorems are already there.
-\item The result is a statement, and a proof of it that Lean accepts.
+\item The computer here is Lean. It checks a proof all the way down to the axioms, and it won't accept a step it can't verify.
+\item You don't start from nothing. Mathlib, the shared library, already has most of the basic definitions and theorems, and quite a few advanced ones.
+\item What you end up with is a statement, and a proof of it that Lean accepts.
 \end{itemize}
 
 \vspace{0.8em}
@@ -39,18 +41,21 @@ Each session: a lecture with live demonstrations in Lean. You redo them, and the
 
 %----------------------------------------------------------------------------
 \begin{frame}[fragile]{What formalizing does not mean}
+I want to be clear about what this does \emph{not} give you, because most misunderstandings start here.
+
+\vspace{0.3em}
 \begin{itemize}
-\item \textbf{Not that the theorem is the one you meant.} Lean checks the proof against the statement as written. Whether the statement says what the paper says is for you to check. This is today's main topic.
-\item \textbf{Not that the computer finds the proofs.} Automation and AI can propose proofs; Lean only checks them.
-\item \textbf{Not a replacement for the paper.} A formal proof shows that something is true, not why. The ideas and the explanation stay on paper.
-\item \textbf{Not programming.} This course assumes no Lean and no programming. What it needs is careful reading.
-\item \textbf{Not all or nothing.} You can state a theorem without proving it, or prove it assuming a step you cannot do yet.
+\item \textbf{It doesn't guarantee the theorem is the one you meant.} Lean checks the proof against the statement as written. If the statement differs from the paper, Lean has no way of knowing. Checking that is your job, and it's most of what we'll do today.
+\item \textbf{The computer doesn't find the proofs.} Automation and AI can propose them. Lean only checks.
+\item \textbf{It doesn't replace the paper.} A formal proof tells you that something is true, not why. The ideas stay on paper.
+\item \textbf{You don't need to be a programmer.} I'll assume no Lean and no programming. What you need is something you already do: read carefully.
+\item \textbf{It isn't all or nothing.} You can state a theorem without proving it, or prove it assuming a step you can't do yet. Both are useful.
 \end{itemize}
 \end{frame}
 
 %----------------------------------------------------------------------------
 \begin{frame}[fragile]{Why now}
-In the last twelve months, AI has written a large part of the Lean code in several major formalizations.
+Why now? Because in the last twelve months, AI has written a large part of the Lean code in several major formalizations. Here are four.
 
 \vspace{0.3em}
 \small
@@ -69,19 +74,18 @@ Navier--Stokes & OpenAI announced Navier--Stokes blowup with forcing, in Lean. W
 
 %----------------------------------------------------------------------------
 \begin{frame}[fragile]{The one idea of today}
+If you remember one sentence from today, make it this one:
+
+\vspace{0.4em}
 \begin{keypoint}
 Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \end{keypoint}
 
-\vspace{0.8em}
-\begin{itemize}
-\item An AI can hand you a proof that Lean accepts.
-\item Whether it proves the theorem \emph{you meant} is for you to decide.
-\item So the most useful skill is not writing Lean but \textbf{reading} it.
-\end{itemize}
+\vspace{0.6em}
+An AI can now hand you a proof that Lean accepts. Lean will tell you the proof is correct. It won't tell you whether the theorem is the one you meant. That part is yours, and it's what this course is about. So I'll spend less time on how to write Lean, and more on how to read it.
 
 \vspace{0.6em}
-\begin{paper}[T.\ Hales, on Terence Tao's blog, 9 October 2026]
+\begin{paper}[Tom Hales put it like this last month, on Terence Tao's blog]
 \itshape ``A proof in Lean should not be accepted until a human audit is performed to ensure statement fidelity. [\dots] This task is generally massively easier than checking the proof itself.''
 \end{paper}
 \end{frame}
@@ -95,14 +99,14 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \end{center}
 
 \begin{itemize}
-\item Fermat's Last Theorem, in Lean.
-\item \lc{sorry} means: proof missing.
-\item Read the statement. Why the hypotheses \lc{a ≠ 0}? Without them, $0^n + b^n = b^n$.
+\item This is Fermat's Last Theorem, in Lean.
+\item \lc{sorry} is where the proof should be. Lean accepts the file, but warns you that something is missing.
+\item Have a look at the hypotheses. Why \lc{a ≠ 0}? Because $0^n + b^n = b^n$, and we don't want that to count.
 \end{itemize}
 
 \vspace{0.4em}
 \begin{keypoint}
-\normalsize The game: replace each \lc{sorry} by a proof Lean accepts. Today: the rules.
+\normalsize That's the whole game: write the statement, then replace \lc{sorry} by a proof Lean accepts. Today is about the rules.
 \end{keypoint}
 \end{frame}
 
@@ -113,10 +117,9 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \begin{columns}[c]
 \begin{column}{0.52\textwidth}
 \begin{itemize}
-\item You write definitions, statements and proofs in a formal language.
-\item Lean checks every step. A small \textbf{kernel} has the final word.
-\item Tactics, automation and AI may be as clever or as wrong as they like: whatever they produce is checked by the kernel.
-\item Lean is also a programming language, so you can compute with your definitions.
+\item You write definitions, statements and proofs in a formal language, and Lean checks every step.
+\item At the bottom sits a small program, the \textbf{kernel}, which has the final word. Everything above it, tactics, automation, AI, can be as clever or as wrong as it likes: whatever it produces goes through the kernel.
+\item Lean is also a programming language, which is handy: you can compute with your definitions and try them on examples.
 \end{itemize}
 \end{column}
 \begin{column}{0.44\textwidth}
@@ -145,9 +148,8 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \end{column}
 \begin{column}{0.56\textwidth}
 \begin{itemize}
-\item One library, written by the community, reviewed by maintainers.
-\item Algebra, number theory, analysis, measure theory and probability, topology, geometry, combinatorics, category theory, \dots
-\item Everything is stated in the \emph{greatest generality} that is convenient: expect rings, fields and ordered structures rather than just $\mathbb{R}$.
+\item One library, written by the community and reviewed by maintainers: algebra, number theory, analysis, measure theory and probability, topology, geometry, combinatorics, category theory, and so on.
+\item One thing to get used to: everything is stated as generally as is convenient. Where you would write $\mathbb{R}$, Mathlib often has an ordered field, or just a ring.
 \end{itemize}
 \end{column}
 \end{columns}
@@ -162,33 +164,31 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \textbf{\color{leanblue}In the browser}
 \begin{itemize}
 \item \href{https://live.lean-lang.org}{live.lean-lang.org}
-\item Mathlib included, nothing to install.
+\item Mathlib included; nothing to install.
 \item Enough for sessions 1 and 2.
 \end{itemize}
 \end{column}
 \begin{column}{0.31\textwidth}
 \textbf{\color{leanblue}On your laptop}
 \begin{itemize}
-\item VS Code with the \emph{Lean 4} extension.
-\item \lc{lake new myproject math} creates a project with Mathlib.
-\item For sessions 3 and 4: see the setup sheet.
+\item VS Code with the \emph{Lean 4} extension, and a project with Mathlib.
+\item The setup sheet has the steps; for sessions 3 and 4.
 \end{itemize}
 \end{column}
 \begin{column}{0.31\textwidth}
 \textbf{\color{leanblue}The course files}
 \begin{itemize}
-\item The code on the slides, one Lean file per session.
-\item Exercises with \lc{sorry} to fill in, at home.
-\item Solutions after the session.
+\item The code on the slides, one file per session.
+\item Exercises with \lc{sorry} to fill in, at home. Solutions after each session.
 \end{itemize}
 \end{column}
 \end{columns}
 
-\vspace{1em}
+\vspace{0.6em}
 \begin{keypoint}
-\normalsize The \textbf{infoview} panel next to your code shows what Lean knows at the cursor. Keep it open.
+\normalsize The \textbf{infoview}, the panel next to your code, shows what Lean knows at the cursor. Keep it open.
 \end{keypoint}
-\source{If opening a file makes Lean start building Mathlib, stop it and run \texttt{lake exe cache get} in the project folder.}
+\source{All files: \href{https://github.com/mkaratarakis/from-paper-to-proof}{github.com/mkaratarakis/from-paper-to-proof}. If opening a file makes Lean start building Mathlib, stop it and run \texttt{lake exe cache get} in the project folder.}
 \end{frame}
 
 %============================================================================
@@ -199,14 +199,14 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 
 \vspace{0.3em}
 \begin{itemize}
-\item \lc{#eval} computes, \lc{#check} tells you the type of an expression.
-\item \lc{Nat.Prime 7} is a \emph{statement}: it has type \lc{Prop}. It is not yet a proof of anything.
+\item \lc{#eval} computes something; \lc{#check} tells you what type an expression has.
+\item \lc{Nat.Prime 7} is a \emph{statement}: its type is \lc{Prop}. Lean knows what it means, but nothing has been proved yet.
 \end{itemize}
 
 \vspace{0.3em}
 \lean{rfl}
 \begin{itemize}
-\item A \emph{proof} of \lc{2 + 2 = 4}. Here \lc{rfl} says: both sides compute to the same value.
+\item And this is a \emph{proof}, of \lc{2 + 2 = 4}. \lc{rfl} says: compute both sides, they come out the same.
 \end{itemize}
 \end{frame}
 
@@ -237,8 +237,8 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \vspace{1em}
 \raggedright
 \begin{itemize}
-\item \lc{example} is a \lc{theorem} without a name.
-\item \lc{by} switches to \emph{tactic mode}: a sequence of instructions that build the proof step by step.
+\item \lc{example} is a theorem you don't bother to name.
+\item \lc{by} says: what follows is a list of instructions, \emph{tactics}, that build the proof step by step.
 \end{itemize}
 \end{frame}
 
@@ -264,11 +264,11 @@ Lean checks the \textbf{proof}. You check the \textbf{statement}.
 \end{column}
 \end{columns}
 
-\vspace{0.2em}
+\vspace{0.1em}
 \begin{itemize}
-\item \lc{have} records an intermediate fact; \lc{calc} is a chain of (in)equalities, each with its own justification.
+\item \lc{have} records an intermediate fact; \lc{calc} chains (in)equalities, each step with its own justification.
 \item \lc{ring} proves identities in commutative rings; \lc{linarith} does linear arithmetic with the hypotheses.
-\item Short version: \lc{nlinarith [sq_nonneg (a - b)]}, with the hint as on paper.
+\item One-line version: \lc{nlinarith [sq_nonneg (a - b)]}, with the same hint as on paper.
 \end{itemize}
 \end{frame}
 
@@ -287,9 +287,9 @@ hn : Even n
 \end{column}
 \begin{column}{0.5\textwidth}
 \begin{itemize}
-\item Above the line: what you \textbf{have}. Variables, and hypotheses with names.
-\item After \lc{⊢}: what you must \textbf{prove}, the \emph{goal}.
-\item Each tactic changes this picture. The proof is finished when no goals are left.
+\item Above the line is what you \textbf{have}: the variables, and the hypotheses with their names.
+\item After \lc{⊢} is what you still have to \textbf{prove}: the \emph{goal}.
+\item Every tactic changes this picture a little. When no goals are left, you're done.
 \end{itemize}
 \end{column}
 \end{columns}
@@ -297,7 +297,7 @@ hn : Even n
 \vspace{1em}
 \lean{even_def}
 \begin{itemize}
-\item In Mathlib, \lc{Even a} \emph{means} $\exists r,\ a = r + r$. \lc{#print} shows you the definition.
+\item In Mathlib, \lc{Even a} \emph{means} $\exists r,\ a = r + r$. Whenever you wonder what a name means, \lc{#print} it.
 \end{itemize}
 \end{frame}
 
@@ -314,12 +314,12 @@ hn : Even n
 
 \vspace{0.4em}
 \small
-\only<1>{The starting position: two even numbers, and the goal.}%
-\only<2>{\lc{obtain} unpacks \lc{hm : ∃ r, m = r + r}: we get a witness \lc{a} and the equation \lc{ha}.}%
+\only<1>{Where we start: two even numbers, and the goal.}%
+\only<2>{\lc{obtain} unpacks \lc{hm : ∃ r, m = r + r}. We get a witness \lc{a} and the equation \lc{ha}.}%
 \only<3>{The same for \lc{hn}.}%
-\only<4>{To prove \lc{∃ r, m + n = r + r} we propose \lc{r := a + b}. (\lc{case h} is only a label.)}%
+\only<4>{To prove \lc{∃ r, m + n = r + r}, we propose \lc{r := a + b}. (\lc{case h} is just a label; ignore it.)}%
 \only<5>{\lc{rw} rewrites \lc{m} and \lc{n} using the two equations.}%
-\only<6>{\lc{ring} proves the identity. \textbf{No goals}: Lean accepts the proof.}%
+\only<6>{\lc{ring} does the algebra. \textbf{No goals}: Lean has accepted the proof.}%
 \end{column}
 \begin{column}{0.47\textwidth}
 \begin{onlyenv}<1>
@@ -381,14 +381,13 @@ No goals
 \begin{frame}[fragile]{The short way}
 \lean{even_short}
 \begin{itemize}
-\item Mathlib already has this fact, under the name \lc{Even.add}. Writing \lc{hm.add hn} applies it to the two hypotheses.
-\item Most short proofs you will see look like this: the work is in finding the right lemma.
-\item More on finding lemmas in a moment.
+\item Mathlib already knows this, under the name \lc{Even.add}. Writing \lc{hm.add hn} applies it to our two hypotheses.
+\item Most short proofs look like this. The work isn't in writing the proof, it's in finding the right lemma. We'll get to that in a moment.
 \end{itemize}
 
 \vspace{0.4em}
 \begin{athome}
-Type the step-by-step proof yourself, and watch the infoview after each line. Then \texttt{Exercises1.lean}, parts 1 and 2.
+Type the step-by-step proof yourself and watch the infoview after each line. Then \texttt{Exercises1.lean}, parts 1 and 2.
 \end{athome}
 \end{frame}
 
@@ -398,8 +397,8 @@ Type the step-by-step proof yourself, and watch the infoview after each line. Th
 \begin{column}{0.47\textwidth}
 \lean{terms}
 \begin{itemize}
-\item A tactic is a program that \emph{builds} a proof term.
-\item The kernel checks the term, not the tactic. That is why tactics, automation and AI can be trusted only as far as the kernel.
+\item A tactic is a program that \emph{builds} a proof term. On the right: the one \lc{linarith} built here.
+\item The kernel checks the term, not the tactic. So tactics, automation and AI can be as clever or as wrong as they like.
 \end{itemize}
 \end{column}
 \begin{column}{0.5\textwidth}
@@ -449,15 +448,15 @@ Try this:
 \begin{column}{0.46\textwidth}
 \begin{itemize}
 \item \lc{exact?} searches Mathlib for a lemma that closes the goal.
-\item \lc{apply?} finds lemmas whose conclusion fits; \lc{rw?} finds rewrites.
-\item Click on the suggestion and it replaces the search.
+\item \lc{apply?} looks for lemmas whose conclusion fits; \lc{rw?} looks for rewrites.
+\item Click the suggestion and it replaces the search.
 \end{itemize}
 \end{column}
 \end{columns}
 
 \vspace{0.5em}
 \begin{caveat}[Before you prove it, search for it]
-Our \lc{sq_add_sq_ge} from a few slides ago was already in Mathlib, as \lc{two_mul_le_add_sq}.
+Our \lc{sq_add_sq_ge} from a few slides ago was already in Mathlib, as \lc{two_mul_le_add_sq}. This will happen to you a lot.
 \end{caveat}
 \end{frame}
 
@@ -483,8 +482,8 @@ Try this:
 
 \vspace{0.5em}
 \begin{itemize}
-\item The first statement is false: in Lean, $\sqrt{x} = 0$ for $x < 0$.
-\item A search that fails is information. Before searching harder, ask whether the statement is true.
+\item The first statement is false: in Lean, $\sqrt{x} = 0$ when $x < 0$, so no lemma can prove it.
+\item A failed search tells you something. Before you search harder, ask whether the statement is actually true.
 \end{itemize}
 \end{frame}
 
@@ -504,7 +503,7 @@ Mathlib docs & a name or a word & \lc{two_mul_le_add_sq}\\
 \vspace{0.8em}
 \begin{itemize}
 \item \href{https://loogle.lean-lang.org}{loogle.lean-lang.org} \quad \href{https://leansearch.net}{leansearch.net} \quad \href{https://leanprover-community.github.io/mathlib4_docs}{Mathlib documentation}
-\item In the editor: hover over a name to see its statement; \emph{Go to definition} opens its source.
+\item And in the editor: hover over a name to see its statement, or \emph{Go to definition} to read its source.
 \end{itemize}
 \end{frame}
 
@@ -514,10 +513,10 @@ Mathlib docs & a name or a word & \lc{two_mul_le_add_sq}\\
 
 \vspace{0.3em}
 \begin{itemize}
-\item A name reads the statement aloud: \lc{mul_comm} is about \lc{*} being commutative, \lc{mul_pos} about a product being positive.
-\item For implications, the conclusion comes first: \lc{lt_of_le_of_lt} proves \lc{<} \emph{of} \lc{≤} and \lc{<}.
-\item Dot notation: if \lc{hp : p.Prime}, then \lc{hp.two_le : 2 ≤ p}.
-\item So you can often \emph{guess} a name, and check it with \lc{#check}.
+\item A name reads the statement aloud: \lc{mul_comm} is about \lc{*} being commutative, \lc{mul_pos} says a product is positive.
+\item For implications, the conclusion comes first: \lc{lt_of_le_of_lt} gives you a \lc{<} \emph{of} a \lc{≤} and a \lc{<}.
+\item Dot notation: if \lc{hp : p.Prime}, then \lc{hp.two_le} is a proof of \lc{2 ≤ p}.
+\item So you can often \emph{guess} a name, and \lc{#check} tells you whether you guessed right.
 \end{itemize}
 \end{frame}
 
@@ -527,8 +526,8 @@ Mathlib docs & a name or a word & \lc{two_mul_le_add_sq}\\
 
 \vspace{0.6em}
 \begin{itemize}
-\item Irrationality of $\sqrt2$, infinitely many primes, the fundamental theorem of algebra, \dots
-\item Each of these is a name you can use in your own proofs.
+\item $\sqrt2$ is irrational, there are infinitely many primes, the fundamental theorem of algebra, and much more.
+\item Each of these is a name you can use in your own proofs, like any other lemma.
 \end{itemize}
 \end{frame}
 
@@ -547,7 +546,7 @@ Mathlib docs & a name or a word & \lc{two_mul_le_add_sq}\\
 \end{tabular}
 
 \vspace{0.6em}
-So \lc{mul_comm} applies to $\mathbb{N}$, $\mathbb{Z}$, $\mathbb{R}$, polynomial rings, \dots\ but not to square matrices: Lean finds no \lc{CommMagma} instance for them, and \lc{mul_comm A B} is rejected.
+So \lc{mul_comm} works for $\mathbb{N}$, $\mathbb{Z}$, $\mathbb{R}$, polynomial rings, \dots\ but not for square matrices: Lean finds no \lc{CommMagma} instance for them, and \lc{mul_comm A B} is rejected. Which is what you'd want.
 \end{frame}
 
 %----------------------------------------------------------------------------
@@ -561,9 +560,9 @@ So \lc{mul_comm} applies to $\mathbb{N}$, $\mathbb{Z}$, $\mathbb{R}$, polynomial
 
 \vspace{0.5em}
 \begin{itemize}
-\item Read it as: \emph{for any ordered commutative semiring $R$, and $a, b \in R$, \ $2ab \le a^2 + b^2$.}
-\item The instance arguments are the precise list of what the proof needs. $\mathbb{R}$ satisfies all of them.
-\item Mathlib states results in this generality so that they apply to $\mathbb{N}$, $\mathbb{Q}$, $\mathbb{R}$, \dots at once.
+\item Read it as: \emph{for any ordered commutative semiring $R$ and $a, b \in R$, \ $2ab \le a^2 + b^2$.}
+\item The square brackets are the exact list of what the proof needs. $\mathbb{R}$ satisfies all of them, so you can ignore them.
+\item Mathlib states results like this so that one lemma works for $\mathbb{N}$, $\mathbb{Q}$, $\mathbb{R}$, \dots\ at once.
 \end{itemize}
 \end{frame}
 
@@ -575,15 +574,15 @@ So \lc{mul_comm} applies to $\mathbb{N}$, $\mathbb{Z}$, $\mathbb{R}$, polynomial
 \end{column}
 \begin{column}{0.41\textwidth}
 \begin{itemize}
-\item In Lean every function is defined everywhere. Where mathematics says ``undefined'', Lean returns a convenient value, usually $0$.
-\item Subtraction on $\mathbb{N}$ stops at $0$; division on $\mathbb{N}$ rounds down.
+\item In Lean, every function is defined everywhere. Where mathematics says ``undefined'', Lean quietly returns some value, usually $0$.
+\item So subtraction on $\mathbb{N}$ stops at $0$, and division on $\mathbb{N}$ rounds down.
 \end{itemize}
 \end{column}
 \end{columns}
 
 \vspace{0.4em}
 \begin{keypoint}
-\normalsize This is harmless in theorems: the hypotheses do the work. A lemma about $a/b$ will ask for \lc{b ≠ 0}. It matters when \emph{you} write a statement.
+\normalsize In Mathlib's theorems this is harmless: a lemma about $a/b$ will ask you for \lc{b ≠ 0}. It bites when \emph{you} write a statement and forget that hypothesis.
 \end{keypoint}
 \end{frame}
 
@@ -592,8 +591,8 @@ So \lc{mul_comm} applies to $\mathbb{N}$, $\mathbb{Z}$, $\mathbb{R}$, polynomial
 \lean{junk_analysis}
 
 \begin{itemize}
-\item A theorem about $\sum' f$ that forgets \lc{Summable f} may hold only because the sum is $0$.
-\item ``The least $n$ with property $B$'' is $0$ when no such $n$ exists.
+\item A theorem about $\sum' f$ that forgets \lc{Summable f} may be true only because the sum is $0$.
+\item ``The least $n$ with property $B$'' is $0$ when there is no such $n$.
 \item ``$f$ has minimal period $N$'', written as ``no smaller period'', fails at $0$: every $f$ has period $0$.
 \end{itemize}
 \end{frame}
@@ -604,9 +603,9 @@ So \lc{mul_comm} applies to $\mathbb{N}$, $\mathbb{Z}$, $\mathbb{R}$, polynomial
 
 \vspace{0.4em}
 \begin{itemize}
-\item \lc{((7 : ℕ) : ℝ)} is the natural number $7$ seen as a real number. Lean prints it with an arrow: \lc{↑n}.
-\item Where the arrow sits changes the meaning: divide in $\mathbb{R}$ and you get $3.5$; divide in $\mathbb{N}$ first and you get $3$.
-\item When a statement mixes $\mathbb{N}$, $\mathbb{Z}$ and $\mathbb{R}$, check where the arrows are.
+\item \lc{((7 : ℕ) : ℝ)} is the natural number $7$, seen as a real number. Lean prints the coercion as an arrow: \lc{↑n}.
+\item Where the arrow sits changes the meaning. Divide in $\mathbb{R}$ and you get $3.5$; divide in $\mathbb{N}$ first and you get $3$.
+\item Whenever a statement mixes $\mathbb{N}$, $\mathbb{Z}$ and $\mathbb{R}$, look for the arrows.
 \end{itemize}
 \end{frame}
 
@@ -620,8 +619,8 @@ For all real $a, b$, \ $\dfrac{a}{b} \cdot b = a$.
 \lean{bug_div}
 
 \begin{itemize}
-\item The claim as written is \textbf{false} in Lean, and Lean can prove that it is false.
-\item On paper the hypothesis $b \ne 0$ is often left implicit. In Lean it must be written.
+\item As written, the claim is \textbf{false} in Lean, and Lean can prove that it's false.
+\item On paper, $b \ne 0$ usually goes without saying. In Lean it has to be said.
 \end{itemize}
 \end{frame}
 
@@ -635,8 +634,8 @@ For every natural number $n$, \ $(n - 1) + 1 = n$.
 \lean{bug_nat}
 
 \begin{itemize}
-\item On $\mathbb{N}$, \ $0 - 1 = 0$. The claim fails at $n = 0$.
-\item The same statement over $\mathbb{Z}$ is true. Which one did the paper mean?
+\item On $\mathbb{N}$, \ $0 - 1 = 0$, so the claim fails at $n = 0$.
+\item Over $\mathbb{Z}$ the same statement is true. Which one did the paper mean? Usually the paper doesn't say.
 \end{itemize}
 \end{frame}
 
@@ -646,12 +645,12 @@ For every natural number $n$, \ $(n - 1) + 1 = n$.
 
 \pause
 \begin{caveat}[Lean accepts this]
-The hypotheses $0 < x$ and $x < 0$ contradict each other, so \emph{anything} follows from them. The theorem is true and says nothing.
+The hypotheses $0 < x$ and $x < 0$ contradict each other, so \emph{anything} follows from them. The theorem is true, and it says nothing.
 \end{caveat}
 
 \begin{itemize}
-\item A theorem with inconsistent hypotheses is proved for free. AI provers find such proofs quickly.
-\item Check: can the hypotheses actually hold together? Try to give an example.
+\item A theorem with inconsistent hypotheses is proved for free, and AI provers find such proofs very quickly.
+\item The check is simple: can the hypotheses hold at the same time? Try to give one example.
 \end{itemize}
 \end{frame}
 
@@ -662,12 +661,12 @@ The hypotheses $0 < x$ and $x < 0$ contradict each other, so \emph{anything} fol
 \pause
 \begin{itemize}
 \item The only difference is where \lc{∀ x} sits.
-\item \lc{Cont f} is continuity: $\delta$ may depend on $x$. \ \lc{UnifCont f} is uniform continuity: one $\delta$ for all $x$.
+\item \lc{Cont f} is continuity: $\delta$ may depend on $x$. \ \lc{UnifCont f} is uniform continuity: one $\delta$ for every $x$.
 \item $x \mapsto x^2$ satisfies the first and not the second.
 \end{itemize}
 
 \begin{keypoint}
-\normalsize Quantifier order is exactly the kind of detail a quick reading misses.
+\normalsize Quantifier order is exactly the kind of thing a quick reading misses.
 \end{keypoint}
 \end{frame}
 
@@ -678,16 +677,16 @@ The hypotheses $0 < x$ and $x < 0$ contradict each other, so \emph{anything} fol
 \only<1>{\vspace{0.5em}\begin{paper}[Goldbach's conjecture]
 Every even integer greater than $2$ is the sum of two primes.
 \end{paper}}%
-\only<2>{\vspace{0.3em}\textbf{\color{alertred}Goldbach₂} forgets $n > 2$, and is false:
+\only<2>{\vspace{0.3em}\textbf{\color{alertred}Goldbach₂} forgot $n > 2$, and is false:
 \lean{goldbach_two}}%
-\only<3>{\vspace{0.3em}\textbf{\color{alertred}Goldbach₃} is true for a silly reason: \lc{∨} binds less tightly than \lc{∧}, so it says ``$p$ is prime, or ($q$ is prime and $n = p + q$)''.
+\only<3>{\vspace{0.3em}\textbf{\color{alertred}Goldbach₃} is true, for a silly reason: \lc{∨} binds less tightly than \lc{∧}, so it says ``$p$ is prime, or ($q$ is prime and $n = p + q$)''.
 \lean{goldbach_three}}%
-\only<4>{\vspace{0.5em}\textbf{\color{okgreen}Goldbach₁} is the conjecture. Nobody knows a proof, so Lean cannot check one. But we can \emph{state} it, and check that the statement is right.}%
+\only<4>{\vspace{0.5em}\textbf{\color{okgreen}Goldbach₁} is the conjecture. Nobody knows a proof, so there's nothing for Lean to check. But we can \emph{state} it, and make sure the statement is right. That's already worth something.}%
 \end{frame}
 
 %----------------------------------------------------------------------------
 \begin{frame}[fragile]{It happens in practice}
-From B.\ Alexeev's report on formalizing Erdős problems with AI:
+This isn't a classroom worry. Boris Alexeev formalized a batch of Erdős problems with AI last year, and wrote up what went wrong:
 
 \vspace{0.4em}
 \begin{paper}[Problem 480]
@@ -709,13 +708,13 @@ From B.\ Alexeev's report on formalizing Erdős problems with AI:
 \lean{axioms}
 
 \begin{itemize}
-\item \lc{sorry} closes any goal and leaves a warning. A proof containing it is not a proof.
-\item \lc{#print axioms} lists everything a theorem ultimately relies on.
-\item The three standard axioms (\lc{propext}, \lc{Classical.choice}, \lc{Quot.sound}) are fine. \lc{sorryAx}, or an axiom you have never heard of, is not.
+\item \lc{sorry} closes any goal, with a warning. A proof that contains one isn't a proof.
+\item \lc{#print axioms} lists everything a theorem ultimately rests on.
+\item Three axioms are standard and fine: \lc{propext}, \lc{Classical.choice}, \lc{Quot.sound}. \lc{sorryAx}, or an axiom you've never heard of, is not.
 \end{itemize}
 
 \begin{keypoint}
-\normalsize For anything an AI hands you: check the statement, then \lc{#print axioms}.
+\normalsize Whenever an AI hands you a proof: read the statement, then \lc{#print axioms}.
 \end{keypoint}
 \end{frame}
 
@@ -738,7 +737,7 @@ From B.\ Alexeev's report on formalizing Erdős problems with AI:
 \begin{frame}[fragile]{At home}
 \begin{columns}[T]
 \begin{column}{0.55\textwidth}
-\texttt{Exercises1.lean}, in the browser or on your laptop.
+\texttt{Exercises1.lean}, in the browser or on your laptop. Four parts:
 \begin{enumerate}
 \item Logic: \lc{intro}, \lc{use}, \lc{obtain}, \dots
 \item Automation: pick the tactic from the table.
@@ -748,9 +747,9 @@ From B.\ Alexeev's report on formalizing Erdős problems with AI:
 \end{column}
 \begin{column}{0.41\textwidth}
 \begin{itemize}
-\item First redo the three demos. Their code is in \texttt{Session1.lean}.
+\item Start by redoing the three demos; the code is in \texttt{Session1.lean}.
 \item The tactic tables are at the end of these slides.
-\item Stuck? Read the infoview first, then ask: on the Lean Zulip, or at the start of next session.
+\item Stuck? Read the infoview first, then ask: on the Lean Zulip, or at the next session.
 \item Want more? The \href{https://adam.math.hhu.de/\#/g/leanprover-community/nng4}{Natural Number Game}.
 \end{itemize}
 \end{column}
@@ -758,7 +757,7 @@ From B.\ Alexeev's report on formalizing Erdős problems with AI:
 
 \vspace{0.3em}
 \begin{keypoint}
-\normalsize Each exercise is rated twice: how hard it is to \emph{state}, and how hard to \emph{prove}. With AI, the first number is the one that matters.
+\normalsize Every exercise has two ratings: how hard to \emph{state}, and how hard to \emph{prove}. With AI around, the first is what matters.
 \end{keypoint}
 \end{frame}
 
@@ -766,13 +765,13 @@ From B.\ Alexeev's report on formalizing Erdős problems with AI:
 \begin{frame}[fragile]{Next time: from paper to Lean}
 \begin{itemize}
 \item Writing your own definitions and statements.
-\item The usual mistakes, and how to catch them.
-\item Getting an AI to draft a statement, and checking what it produces.
+\item The mistakes everyone makes at first, and how to catch them.
+\item Letting an AI draft a statement, and checking what it gives you.
 \end{itemize}
 
 \vspace{1em}
 \begin{keypoint}
-\normalsize Before next time: think of a result from your own work you would like to see in Lean. Short and elementary is best: in session 4 I formalize some of them live.
+\normalsize Before Thursday: think of a result from your own work that you'd like to see in Lean. Short and elementary is best. In session 4, I'll formalize some of them live.
 \end{keypoint}
 \end{frame}
 
@@ -783,7 +782,7 @@ From B.\ Alexeev's report on formalizing Erdős problems with AI:
 \item J.\ Avigad et al., \emph{Theorem Proving in Lean 4}. How Lean works underneath.
 \item The Natural Number Game. Lean as a puzzle game, in the browser.
 \item The Mathlib documentation, Loogle and LeanSearch.
-\item The Lean Zulip chat, stream \emph{\#new members}: questions of every level are welcome.
+\item The Lean Zulip chat, stream \emph{\#new members}. Questions of every level are welcome, really.
 \end{itemize}
 \end{frame}
 
@@ -867,7 +866,7 @@ the theorem is true & \lc{theorem t : P := proof} & Lean accepted a term of type
 \end{tabular}
 
 \vspace{0.8em}
-You will rarely need this explicitly. It explains why hypotheses are written \lc{(h : x < 0)}: a hypothesis is just a named proof you are given.
+You'll rarely need this explicitly. It explains why hypotheses are written \lc{(h : x < 0)}: a hypothesis is just a named proof you've been given.
 \end{frame}
 
 \end{document}
