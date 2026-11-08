@@ -1,0 +1,247 @@
+% bgsmathlean.sty: shared look for all four sessions of
+% "From Paper to Proof: Formalizing Mathematics in Lean with AI" (BGSMath, 2026).
+%
+% Build with pdfLaTeX. Lean code is set with listings and lstlean.tex (no shell escape needed).
+% Every session loads this file and sets \leanfile{<file>.lean}; code is then cut
+% out of that file by tag, so the slides only ever show code that compiles.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{bgsmathlean}[2026/10/18 BGSMath Lean course slides]
+
+%----------------------------------------------------------------------------
+% Theme and fonts
+%----------------------------------------------------------------------------
+\usetheme[progressbar=frametitle, numbering=fraction, block=fill,
+          sectionpage=progressbar, subsectionpage=none]{metropolis}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[sfdefault, lining, semibold]{FiraSans}
+\usepackage[scale=0.95]{FiraMono}
+\usepackage{amssymb, upgreek, stmaryrd}% upgreek and stmaryrd: symbols used by lstlean.tex
+
+% Unicode in running text and in \lc (listings use lstlean.tex's literate instead).
+\usepackage{newunicodechar}
+\newunicodechar{ℕ}{\ensuremath{\mathbb{N}}}
+\newunicodechar{ℤ}{\ensuremath{\mathbb{Z}}}
+\newunicodechar{ℝ}{\ensuremath{\mathbb{R}}}
+\newunicodechar{𝓝}{\ensuremath{\mathcal{N}}}
+\newunicodechar{→}{\ensuremath{\to}}
+\newunicodechar{↔}{\ensuremath{\leftrightarrow}}
+\newunicodechar{↑}{\ensuremath{\uparrow}}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\newunicodechar{∃}{\ensuremath{\exists}}
+\newunicodechar{∈}{\ensuremath{\in}}
+\newunicodechar{∧}{\ensuremath{\wedge}}
+\newunicodechar{∨}{\ensuremath{\vee}}
+\newunicodechar{≠}{\ensuremath{\neq}}
+\newunicodechar{≤}{\ensuremath{\leq}}
+\newunicodechar{≥}{\ensuremath{\geq}}
+\newunicodechar{⊢}{\ensuremath{\vdash}}
+\newunicodechar{⟨}{\ensuremath{\langle}}
+\newunicodechar{⟩}{\ensuremath{\rangle}}
+\newunicodechar{⋮}{\ensuremath{\vdots}}
+\newunicodechar{ε}{\ensuremath{\varepsilon}}
+\newunicodechar{₀}{\ensuremath{_0}}
+\newunicodechar{₁}{\ensuremath{_1}}
+\newunicodechar{₂}{\ensuremath{_2}}
+\newunicodechar{₃}{\ensuremath{_3}}
+
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, fit, shapes.misc}
+\usepackage{booktabs, array, tabularx, colortbl}
+\usepackage[most]{tcolorbox}
+\usepackage{listings}
+\usepackage{hyperref}
+
+%----------------------------------------------------------------------------
+% Colours
+%----------------------------------------------------------------------------
+\definecolor{ink}{HTML}{1E2433}        % text, title bar
+\definecolor{leanblue}{HTML}{2F5DA8}   % main accent
+\definecolor{leansky}{HTML}{E8EFFA}    % light accent background
+\definecolor{codebg}{HTML}{F6F7F9}     % code background
+\definecolor{coderule}{HTML}{C9D2E3}
+\definecolor{goalbg}{HTML}{FFFBEA}     % infoview background
+\definecolor{goalrule}{HTML}{E4C76B}
+\definecolor{paperbg}{HTML}{FBF8F2}    % informal mathematics
+\definecolor{paperrule}{HTML}{CDBFA6}
+\definecolor{alertred}{HTML}{B8322A}
+\definecolor{okgreen}{HTML}{2E7D4F}
+\definecolor{muted}{HTML}{6B7280}
+
+\setbeamercolor{normal text}{fg=ink, bg=white}
+\setbeamercolor{frametitle}{fg=white, bg=ink}
+\setbeamercolor{progress bar}{fg=leanblue, bg=leansky}
+\setbeamercolor{title separator}{fg=leanblue}
+\setbeamercolor{alerted text}{fg=alertred}
+\setbeamercolor{example text}{fg=okgreen}
+\setbeamercolor{block title}{fg=ink, bg=leansky}
+\setbeamercolor{block body}{bg=leansky!40}
+\setbeamerfont{frametitle}{size=\large}
+\setbeamertemplate{itemize item}{\color{leanblue}\raisebox{0.15ex}{\scriptsize$\blacktriangleright$}}
+\setbeamertemplate{itemize subitem}{\color{muted}\textendash}
+\metroset{titleformat frame=regular, titleformat section=regular}
+
+%----------------------------------------------------------------------------
+% Lean code cut from the session's .lean file
+%----------------------------------------------------------------------------
+% Lean syntax highlighting: lstlean.tex, with the colours of the LPAR slides.
+\definecolor{keywordcolor}{rgb}{0.7, 0.1, 0.1}   % red
+\definecolor{tacticcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{commentcolor}{rgb}{0.4, 0.4, 0.4}   % grey
+\definecolor{symbolcolor}{rgb}{0.0, 0.1, 0.6}    % blue
+\definecolor{sortcolor}{rgb}{0.1, 0.5, 0.1}      % green
+\definecolor{attributecolor}{rgb}{0.7, 0.1, 0.1} % red
+\definecolor{errorcolor}{rgb}{0.7, 0.1, 0.1}     % red (sorry)
+\definecolor{stringcolor}{rgb}{0.5, 0.3, 0.1}    % brown
+\def\lstlanguagefiles{lstlean.tex}
+% moreliterate={...}: literate replacements added to those of lstlean.tex.
+\lst@Key{moreliterate}{}{\expandafter\def\expandafter\lst@literate\expandafter{\lst@literate#1}}
+\providecommand{\notni}{\not\ni}% the one symbol of lstlean.tex no loaded package has
+\lstdefinestyle{bgslean}{language=lean, basicstyle=\ttfamily\footnotesize,
+  moreliterate={{𝓝}{{\ensuremath{\mathcal{N}}}}1 {⋮}{{\ensuremath{\vdots}}}1
+    {²}{{\ensuremath{^2}}}1 {−}{{\ensuremath{-}}}1},
+  numbers=left, numbersep=0pt, firstnumber=1, numberstyle=\bgs@hlline}
+\lstset{style=bgslean}
+
+% \leanfile{Session1.lean}: the session's Lean file, next to the slides (Overleaf, flat
+% layout) or in ../BGSMath/ (the repository).
+\newcommand*{\bgs@leanfile}{}
+\newcommand{\leanfile}[1]{%
+  \IfFileExists{#1}{\renewcommand*{\bgs@leanfile}{#1}}{%
+    \IfFileExists{../BGSMath/#1}{\renewcommand*{\bgs@leanfile}{../BGSMath/#1}}{%
+      \PackageError{bgsmathlean}{Lean file #1 not found in . or ../BGSMath/}{}}}}
+
+% highlightlines=4 or highlightlines={1-3}, highlightcolor=<colour>: a bar behind
+% those lines of a listing. It is drawn by the line-number hook; numbers are not shown.
+\def\bgs@hlparse#1-#2\@nil{\def\bgs@hlfrom{#1}%
+  \ifx\@nil#2\@nil\def\bgs@hlto{#1}\else\bgs@hlparseto#2\@nil\fi}
+\def\bgs@hlparseto#1-\@nil{\def\bgs@hlto{#1}}
+\lst@Key{highlightlines}{0}{\bgs@hlparse#1-\@nil}
+\lst@Key{highlightcolor}{goalbg}{\def\bgs@hlcolor{#1}}
+\newcommand{\bgs@hlline}[1]{%
+  \ifnum#1<\bgs@hlfrom\relax\else\ifnum#1>\bgs@hlto\relax\else
+    \hspace*{-4pt}\rlap{\color{\bgs@hlcolor}%
+      \rule[-0.3\baselineskip]{\dimexpr\linewidth+8pt}{\baselineskip}}%
+  \fi\fi}
+
+% \bgs@cut{<file>}{<tag>}: copy the lines between `-- !begin <tag>` and `-- !end <tag>`
+% to <jobname>-snippet.lean.
+\ExplSyntaxOn
+\ior_new:N \g__bgs_ior
+\iow_new:N \g__bgs_iow
+\bool_new:N \l__bgs_in_bool
+\cs_new_protected:Npn \bgs@cut #1 #2
+  {
+    \bool_set_false:N \l__bgs_in_bool
+    \iow_open:Nn \g__bgs_iow { \c_sys_jobname_str -snippet.lean }
+    \ior_open:Nn \g__bgs_ior {#1}
+    \ior_str_map_inline:Nn \g__bgs_ior
+      {
+        \str_if_eq:nnT {##1} { -- ~ !end ~ #2 } { \bool_set_false:N \l__bgs_in_bool }
+        \bool_if:NT \l__bgs_in_bool { \iow_now:Nn \g__bgs_iow {##1} }
+        \str_if_eq:nnT {##1} { -- ~ !begin ~ #2 } { \bool_set_true:N \l__bgs_in_bool }
+      }
+    \ior_close:N \g__bgs_ior
+    \iow_close:N \g__bgs_iow
+  }
+\ExplSyntaxOff
+
+% \lean[<listings options>]{<tag>}: the code between `-- !begin <tag>` and `-- !end <tag>`.
+\newcommand{\lean}[2][]{%
+  \bgs@cut{\bgs@leanfile}{#2}%
+  \begin{tcolorbox}[enhanced, colback=codebg, colframe=coderule, boxrule=0.4pt,
+      leftrule=2.5pt, arc=1.5pt, left=4pt, right=4pt, top=1pt, bottom=1pt,
+      borderline west={2.5pt}{0pt}{leanblue}]
+    \lstinputlisting[#1]{\jobname-snippet.lean}%
+  \end{tcolorbox}}
+
+% Inline Lean: \lc{mul_comm}, or \lc|...| if the code contains braces. Plain code font.
+% # and % are read as text, except inside another command's argument (\only{...}),
+% where they are already read. The text is read again with _ ^ { } \ as plain
+% characters, so that its Unicode symbols go through \newunicodechar.
+\newcommand{\lc}{\begingroup\catcode`\#=12 \catcode`\%=12 \catcode`\^=12
+  \@ifnextchar|{\bgs@lcbar}{\bgs@lcarg}}
+\def\bgs@lcbar|{\catcode`\{=12 \catcode`\}=12 \bgs@lcbarB}
+\def\bgs@lcbarB#1|{\bgs@lcset{#1}}
+\def\bgs@lcarg#1{\bgs@lcset{#1}}
+\def\bgs@lcset#1{\edef\bgs@lctext{\detokenize{#1}}%
+  {\ttfamily\small \endlinechar=-1
+   \catcode`\_=12 \catcode`\^=12 \catcode`\{=12 \catcode`\}=12 \catcode`\&=12
+   \catcode`\$=12 \catcode`\~=12 \catcode`\#=12 \catcode`\%=12 \catcode`\\=12
+   \expandafter\scantokens\expandafter{\bgs@lctext}}\endgroup}
+
+% Goal display, styled after the Lean infoview. Body is Lean text, typed verbatim.
+\newtcblisting{goal}[1][]{enhanced, listing only, listing options={style=bgslean},
+  colback=goalbg, colframe=goalrule, boxrule=0.4pt, arc=1.5pt,
+  left=4pt, right=4pt, top=1pt, bottom=1pt,
+  title={\scriptsize\sffamily Lean infoview}, coltitle=ink, colbacktitle=goalrule!45,
+  toptitle=0pt, bottomtitle=0pt, #1}
+
+% Lean output (what #check / #eval print), typed verbatim.
+\newtcblisting{leanout}[1][]{enhanced, listing only, listing options={style=bgslean},
+  colback=white, colframe=coderule, boxrule=0.4pt, arc=1.5pt,
+  left=4pt, right=4pt, top=1pt, bottom=1pt,
+  title={\scriptsize\sffamily Lean says}, coltitle=muted, colbacktitle=codebg,
+  toptitle=0pt, bottomtitle=0pt, #1}
+
+% Informal mathematics, as it would appear in a paper.
+\newtcolorbox{paper}[1][On paper]{enhanced, colback=paperbg, colframe=paperrule,
+  boxrule=0.4pt, arc=1.5pt, left=6pt, right=6pt, top=3pt, bottom=3pt,
+  fontupper=\rmfamily\small, title={\scriptsize\sffamily #1}, coltitle=ink,
+  colbacktitle=paperrule!45, toptitle=0pt, bottomtitle=0pt}
+
+% Labels for side-by-side comparisons.
+\newcommand{\leanlabel}[1][In Lean]{{\scriptsize\sffamily\color{leanblue}#1}\par\vspace{-2pt}}
+
+% The one-sentence message of a slide.
+\newtcolorbox{keypoint}{enhanced, colback=leansky, colframe=leanblue, boxrule=0pt,
+  leftrule=3pt, arc=0pt, left=8pt, right=8pt, top=5pt, bottom=5pt, fontupper=\large}
+
+% Warnings: a statement that is wrong, vacuous, or not what it seems.
+\newtcolorbox{caveat}[1][Careful]{enhanced, colback=alertred!6, colframe=alertred,
+  boxrule=0pt, leftrule=3pt, arc=0pt, left=8pt, right=8pt, top=3pt, bottom=3pt,
+  title={\scriptsize\sffamily\bfseries #1}, coltitle=alertred, colbacktitle=alertred!6,
+  attach title to upper={\ \ }}
+
+% What to redo at home, after a live demonstration.
+\newtcolorbox{athome}[1][At home]{enhanced, colback=okgreen!7, colframe=okgreen,
+  boxrule=0pt, leftrule=3pt, arc=0pt, left=8pt, right=8pt, top=3pt, bottom=3pt,
+  title={\scriptsize\sffamily\bfseries #1}, coltitle=okgreen, colbacktitle=okgreen!7,
+  attach title to upper={\ \ }}
+
+% Tag for the frame title of a slide that is shown live in Lean.
+\newcommand{\livedemo}{\hfill{\scriptsize\sffamily\mdseries\colorbox{okgreen}{\color{white}live in Lean}}}
+
+% TikZ styles used on several slides (defined here: `#1` cannot appear inside a frame).
+\tikzset{
+  layer/.style={draw=#1, fill=#1!12, rounded corners=2pt, minimum width=5.2cm,
+                minimum height=0.78cm, font=\small, align=center},
+  part/.style={font=\ttfamily\small, inner sep=2pt, rounded corners=1.5pt, fill=#1!14, draw=#1!70},
+  lbl/.style={font=\scriptsize\sffamily, text=#1, align=center},
+  arr/.style={-{Stealth[length=4pt]}, draw=#1!80, thick},
+}
+
+% Small source line at the bottom of a slide.
+\newcommand{\source}[1]{\vfill{\scriptsize\color{muted}#1\par}}
+
+% Tick and cross for tables.
+\newcommand{\yes}{{\color{okgreen}\ensuremath{\checkmark}}}
+\newcommand{\no}{{\color{alertred}\ensuremath{\times}}}
+
+% Session plan: \sessionplan{<current session number>}
+\newcommand{\sessionplan}[1]{%
+  \renewcommand{\arraystretch}{1.35}%
+  \begin{tabularx}{\linewidth}{@{}c>{\raggedright\arraybackslash}p{0.27\linewidth}X@{}}
+    \toprule
+    & \textbf{Session} & \textbf{Content}\\\midrule
+    \bgs@row{1}{#1}{Lean and Mathlib}{What formalizing means, and does not mean; first proofs; finding things in Mathlib; reading a Lean statement}
+    \bgs@row{2}{#1}{From paper to Lean}{Writing definitions and statements; the usual mistakes; drafting statements with AI and checking them}
+    \bgs@row{3}{#1}{AI tools}{What AI did this year; an agent proving a statement, live; checking what it hands back}
+    \bgs@row{4}{#1}{Your own theorem}{Statements sent in by participants, formalized live; how to do your own at home}
+    \bottomrule
+  \end{tabularx}}
+\newcommand{\bgs@row}[4]{%
+  \ifnum#1=#2 \rowcolor{leansky}\fi
+  \textbf{#1} & #3 & {\small #4}\\}
+
+\endinput

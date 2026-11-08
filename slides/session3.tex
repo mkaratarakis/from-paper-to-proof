@@ -1,0 +1,408 @@
+% Session 3 of "From Paper to Proof: Formalizing Mathematics in Lean with AI".
+% Build: Overleaf with the pdfLaTeX compiler (or pdflatex, twice)
+\documentclass[10pt, aspectratio=169]{beamer}
+\usepackage{bgsmathlean}
+\leanfile{Session3.lean}
+
+\title{From Paper to Proof}
+\subtitle{Session 3: AI tools}
+\author{Michail Karatarakis}
+\institute{BGSMath Graduate Course \textperiodcentered{} UPC, Barcelona}
+\date{17 November 2026}
+
+\begin{document}
+
+\maketitle
+
+%============================================================================
+\begin{frame}[fragile]{The course}
+\sessionplan{3}
+
+\vspace{0.4em}
+Each session: a lecture with live demonstrations in Lean. You redo them, and the exercises, at home.
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Last time, and today}
+\begin{keypoint}
+Lean checks the \textbf{proof}. You check the \textbf{statement}.
+\end{keypoint}
+
+\vspace{0.8em}
+\begin{columns}[T]
+\begin{column}{0.48\textwidth}
+\textbf{\color{leanblue}Last time: writing}
+\begin{itemize}
+\item Definitions and statements, and tests for them.
+\item A statement you trust, ending in \lc{sorry}.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\textbf{\color{leanblue}Today: proving, with AI}
+\begin{itemize}
+\item What the tools did this year.
+\item An agent proving a statement, live.
+\item Checking what comes back.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+%============================================================================
+\section{What happened this year}
+
+\begin{frame}[fragile]{Fermat's Last Theorem}
+\begin{itemize}
+\item Claude ``worked largely autonomously over 11 days'': \textbf{13 million lines} of Lean, with 29,500 intermediate theorems.
+\item It followed a simplified version of Wiles's proof, and adapted pieces of Buzzard's FLT project and of \texttt{flt-regular}.
+\item The agents ran on Prove2Me and a multi-agent harness built on Claude Code.
+\item ``Mathematical input from humans was limited to occasional high-level instructions [\dots]''
+\end{itemize}
+
+\vspace{0.4em}
+\begin{paper}[How the result was checked]
+\itshape ``The finished proof was checked by Lean; it uses just Lean's three standard axioms, and a comparator confirmed that the theorem's statement matches Mathlib's own statement of FLT.''
+\end{paper}
+
+\source{Anthropic, \emph{Formalizing Fermat's Last Theorem}, 4 September 2026.}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{The unit distance conjecture}
+\renewcommand{\arraystretch}{1.35}
+\begin{tabular}{@{}>{\bfseries}p{0.12\linewidth}>{\raggedright\arraybackslash}p{0.82\linewidth}@{}}
+\toprule
+20 May & ChatGPT disproves Erdős's unit distance conjecture.\\
+26 May & An autoformalization of the whole paper, \emph{conditional} on two classical theorems not in Mathlib (Golod--Shafarevich, and a theorem of Shafarevich).\\
+26 June & B.\ Alexeev, with OpenAI's model Sol: a complete formalization, ``assuming nothing beyond the axioms of mathematics''. 1.2 million lines, in three weeks.\\
+\bottomrule
+\end{tabular}
+
+\vspace{0.6em}
+\begin{caveat}[The statements, again]
+In the conditional version, K.\ Buzzard ``found errors in the statements of the external theorems'': the theorems that were assumed, not proved.
+\end{caveat}
+
+\source{K.\ Buzzard, Xena blog, 20 July 2026; Logical Intelligence, \emph{Aleph Prover} blog post.}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Gauss: sphere packing and the prime number theorem}
+\begin{itemize}
+\item \textbf{Strong prime number theorem.} A challenge set by Tao and Kontorovich in January 2024. Math Inc's agent Gauss completed it ``after three weeks of effort'': about 25,000 lines.
+\item \textbf{Sphere packing.} A project started by Hariharan and Viazovska in 2024. According to Math Inc, Gauss proved the remaining results for dimension 8 ``in just 5 days'', then formalized dimension 24 in two weeks, ``using only the original paper as input''.
+\item \textbf{Access.} Gauss is in early access, for a select group of mathematicians.
+\end{itemize}
+
+\vspace{0.4em}
+\begin{caveat}[Not everyone tells it the same way]
+A guest post on the Xena blog (16 October 2026) gives a critical account of Gauss's part in the sphere packing project. Read both.
+\end{caveat}
+
+\source{Math, Inc., \emph{Introducing Gauss} and \emph{Sphere packing}; Xena blog, 16 October 2026.}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{What these have in common}
+\begin{columns}[c]
+\begin{column}{0.5\textwidth}
+\begin{itemize}
+\item The \textbf{statement} was fixed before the proof: Mathlib's FLT, the paper's theorem, a human blueprint.
+\item The AI wrote the \textbf{proof}: millions of lines that nobody reads.
+\item Lean, and a comparator, did the \textbf{check}.
+\item Where things went wrong, they went wrong in the statements.
+\end{itemize}
+\end{column}
+\begin{column}{0.46\textwidth}
+\centering
+\begin{tikzpicture}[every node/.append style={text=ink}]
+  \node[layer=paperrule, minimum width=4.4cm] (h) at (0,2.0) {Humans\\[-2pt]{\scriptsize statements and plan}};
+  \node[layer=leanblue, minimum width=4.4cm]  (a) at (0,1.0) {AI\\[-2pt]{\scriptsize the proof}};
+  \node[layer=alertred, minimum width=4.4cm, line width=1pt] (l) at (0,0) {Lean\\[-2pt]{\scriptsize checks it}};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+
+\vspace{0.8em}
+\begin{keypoint}
+\normalsize The same division of labour works for one theorem of yours.
+\end{keypoint}
+\end{frame}
+
+%============================================================================
+\section{The tools}
+
+\begin{frame}[fragile]{The tools, November 2026}
+\renewcommand{\arraystretch}{1.15}
+\small
+\begin{tabular}{@{}>{\bfseries}p{0.15\linewidth}>{\raggedright\arraybackslash}p{0.5\linewidth}>{\raggedright\arraybackslash}p{0.27\linewidth}@{}}
+\toprule
+Tool & What it is & Can you use it?\\\midrule
+Claude Code & A coding agent: works in your Lean project, runs Lean, reads the errors, edits, repeats. & Yes, with a paid plan.\\
+Prove2Me & An open platform: a paper becomes a \emph{mission}, and anyone's agent can contribute proofs. & Yes: \href{https://prove2.me}{prove2.me}.\\
+Tau Ceti & A Lean library downstream of Mathlib: humans write the roadmaps, AI writes the code. & Through its roadmaps.\\
+Gauss & Math Inc's autoformalization agent. & Early access only.\\
+Aristotle & Harmonic's agent. Its current version verifies code (Verilog, C, Rust); it ``doesn't verify pure mathematics or Lean''. & Not for Lean, today.\\
+\bottomrule
+\end{tabular}
+
+\source{Product pages and documentation, read on 2 November 2026. This changes fast: check before you rely on it.}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{A coding agent}
+\begin{columns}[c]
+\begin{column}{0.48\textwidth}
+\begin{itemize}
+\item It reads your files, writes Lean, runs Lean, and reads the errors. Then it tries again.
+\item Lean's error messages are its feedback. That is why it works for proofs: every attempt gets an exact answer.
+\item It can work for a long time without you. You check the result.
+\end{itemize}
+\end{column}
+\begin{column}{0.48\textwidth}
+\centering
+\begin{tikzpicture}[every node/.append style={text=ink}]
+  \node[layer=paperrule, minimum width=3.6cm] (you) at (0,2.4) {You\\[-2pt]{\scriptsize statement and rules}};
+  \node[layer=leanblue, minimum width=3.6cm]  (ag)  at (0,1.2) {Agent\\[-2pt]{\scriptsize edits the proof}};
+  \node[layer=alertred, minimum width=3.6cm]  (ln)  at (0,0) {Lean\\[-2pt]{\scriptsize errors and goals}};
+  \draw[arr=ink] (you) -- (ag);
+  \draw[arr=ink] (ag.east) to[bend left=50] (ln.east);
+  \draw[arr=ink] (ln.west) to[bend left=50] (ag.west);
+  \node[lbl=muted, anchor=west] at ($(ag.east)+(0.55,-0.6)$) {until no errors};
+\end{tikzpicture}
+\end{column}
+\end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Setting it up for Lean}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{enumerate}
+\item A Lean project with Mathlib (session 1).
+\item Claude Code, in the terminal or in VS Code.
+\item \textbf{lean-lsp-mcp}: gives the agent what you see in the infoview. In the project folder:
+\end{enumerate}
+\begin{leanout}[title={\scriptsize\sffamily Terminal}]
+claude mcp add lean-lsp uvx lean-lsp-mcp
+\end{leanout}
+\end{column}
+\begin{column}{0.46\textwidth}
+\textbf{\color{leanblue}What the agent can then do}
+\begin{itemize}
+\item See the goal at any line, and the errors.
+\item Search Mathlib: LeanSearch, Loogle, local search.
+\item Check which axioms a proof uses.
+\end{itemize}
+\end{column}
+\end{columns}
+
+\source{github.com/oOo0oOo/lean-lsp-mcp. Other coding agents work in the same way.}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Pin the statement\livedemo}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\lean{pinned}
+\end{column}
+\begin{column}{0.41\textwidth}
+\begin{itemize}
+\item Put the statement in a \lc{def} that the agent may not edit, and ask for \lc{theorem main : Statement}.
+\item If the agent changes the statement to make it easier, you see it in the file history.
+\item This is what the comparator did for FLT, at scale.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Instructions for the agent}
+\begin{columns}[T]
+\begin{column}{0.5\textwidth}
+\begin{paper}[A rules file for the project]
+\small
+\begin{itemize}
+\item Never edit the file with \texttt{Statement}.
+\item Never add \texttt{axiom}, \texttt{sorry} or \texttt{native\_decide}.
+\item Search Mathlib before proving a lemma.
+\item Before writing Lean, write the plan: the lemmas, in English.
+\item If a step fails, stop and report it. Do not change the statement.
+\end{itemize}
+\end{paper}
+\end{column}
+\begin{column}{0.46\textwidth}
+\begin{itemize}
+\item Claude Code reads such rules from a file \texttt{CLAUDE.md} in the project.
+\item Ask for the plan first. A wrong plan costs you one paragraph; a wrong proof costs an hour.
+\item At the end, ask what it used from Mathlib, and what it could not prove.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Prove2Me}
+\begin{itemize}
+\item A researcher launches a \textbf{mission}: a headline goal, the definitions it needs, and milestone lemmas.
+\item Humans audit this core before the mission is released, ``and audit nothing beyond it''. A read-back step translates the Lean into \LaTeX{} for comparison with the source.
+\item Agents split proofs into \emph{proof sketches}: each child lemma ``immediately becomes a new problem on the platform''.
+\item Proved results go into a shared library that later proofs can import.
+\end{itemize}
+
+\vspace{0.4em}
+\begin{keypoint}
+\normalsize The human work is the statements. Everything after that is open to anyone's agent.
+\end{keypoint}
+
+\source{S.\ Chen, K.\ Marwaha, X.\ Lu, H.\ Yuen, T.\ Peng, \emph{Prove2Me}, arXiv:2608.28433 (August 2026).}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Tau Ceti}
+\begin{itemize}
+\item ``An AIs-welcome Lean library downstream of Mathlib: AI handle the implementation and review, humans write the roadmaps and review rubrics.''
+\item A \textbf{roadmap} is a \texttt{README.md}, ``the definitive specification of its area'', usually with suggested Lean target statements in \texttt{Suggested.lean}.
+\item Roadmap changes go through human review. Anyone can propose one.
+\item Incubated by the Lean FRO and the Mathlib Initiative.
+\end{itemize}
+
+\vspace{0.4em}
+\begin{keypoint}
+\normalsize A roadmap is a set of statements, written and checked by people. The proofs are left to AI.
+\end{keypoint}
+
+\source{github.com/TauCetiProject/TauCeti and TauCetiRoadmap.}
+\end{frame}
+
+%============================================================================
+\section{Checking what comes back}
+
+\begin{frame}[fragile]{Lean accepted it. Now what?}
+Lean accepting a file means less than it seems. The file may still contain:
+\begin{itemize}
+\item a \textbf{changed statement}: easier than the one you asked for;
+\item a \lc{sorry}, hidden inside a longer proof;
+\item a new \textbf{axiom}: the result, simply assumed;
+\item \lc{native_decide}: a computation trusted to the compiler, not checked by the kernel;
+\item hypotheses that cannot hold, or that assume the conclusion (session 2).
+\end{itemize}
+
+\vspace{0.6em}
+\begin{keypoint}
+\normalsize None of these is an error. You find them by looking.
+\end{keypoint}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile,t]{Spot the problem (1)}
+\lean{cheat_axiom}
+
+\pause
+\begin{itemize}
+\item \lc{axiom} asserts a statement without proof. Here a false one, and Lean accepts \lc{looks_fine}.
+\item \lc{#print axioms} lists it. Anything beyond the three standard axioms needs an explanation.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile,t]{Spot the problem (2)}
+\lean{cheat_sorry}
+
+\pause
+\begin{itemize}
+\item The key step is \lc{sorry}. Lean warns, but in a long file the warning is easy to miss.
+\item \lc{#print axioms} shows \lc{sorryAx}: the proof is not finished.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile,t]{Spot the problem (3)}
+\lean{cheat_native}
+
+\pause
+\begin{itemize}
+\item \lc{native_decide} runs compiled code and trusts its answer. The kernel does not check it.
+\item It shows up as an axiom you have never heard of. Here \lc{norm_num} proves the same statement, and the kernel checks it.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{What a clean proof looks like}
+\lean{honest}
+
+\vspace{0.4em}
+\begin{itemize}
+\item The same statement as in (2), proved by a Mathlib lemma.
+\item Only \lc{propext}, \lc{Classical.choice} and \lc{Quot.sound}: the three standard axioms of Lean and Mathlib.
+\end{itemize}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Checking an AI's proof\livedemo}
+\begin{enumerate}
+\item \textbf{The statement is unchanged.} It is pinned, and the file history shows no edit to it.
+\item \textbf{It builds}, with no errors and no \lc{sorry} warnings.
+\item \textbf{Axioms.} \lc{#print axioms main} shows only the three standard ones.
+\item \textbf{Warnings.} An unused hypothesis is a warning sign (session 2).
+\item \textbf{The statement still passes the tests}: the hypotheses can hold, and it reads back as the paper.
+\end{enumerate}
+
+\vspace{0.6em}
+\begin{keypoint}
+\normalsize Steps 2 and 3 are mechanical. Steps 1 and 5 are yours.
+\end{keypoint}
+\end{frame}
+
+%============================================================================
+\section{At home}
+
+\begin{frame}[fragile]{At home}
+\begin{columns}[T]
+\begin{column}{0.55\textwidth}
+\texttt{Exercises3.lean}, on your laptop.
+\begin{enumerate}
+\item Let an agent prove it: five statements, one at a time, with the rules from the slides. Check every proof it hands back.
+\item Audit: seven proofs ``from an agent'', all accepted by Lean. Which ones prove the paper statement?
+\item Your statement from session 2: pin it, and let an agent try.
+\end{enumerate}
+\end{column}
+\begin{column}{0.41\textwidth}
+\begin{itemize}
+\item No agent? Prove part 1 yourself, with \lc{exact?} and the tactics from session 1.
+\item A coding agent needs an account, usually paid. The setup sheet has the steps.
+\item If the agent gets stuck on your statement, write down where.
+\end{itemize}
+\end{column}
+\end{columns}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Next time: your own theorem}
+\begin{itemize}
+\item Two or three of your statements, formalized live: statement, tests, proof, audit.
+\item A template for doing your own at home.
+\item Where to go after the course: the Lean Zulip, contributing to Mathlib, larger projects.
+\end{itemize}
+
+\vspace{1em}
+\begin{keypoint}
+\normalsize Before next time: send me your statement, if you have not yet. Short and elementary works best.
+\end{keypoint}
+\end{frame}
+
+%----------------------------------------------------------------------------
+\begin{frame}[fragile]{Sources}
+\small
+\begin{itemize}
+\item Anthropic, \emph{Formalizing Fermat's Last Theorem}, 4 September 2026.
+\item K.\ Buzzard, Xena blog: 20 July 2026 (unit distances); guest post, 16 October 2026.
+\item Logical Intelligence, \emph{Aleph Prover} blog post (unit distances).
+\item Math, Inc.: \emph{Introducing Gauss}; \emph{Sphere packing}.
+\item S.\ Chen et al., \emph{Prove2Me}, arXiv:2608.28433; \href{https://prove2.me}{prove2.me}.
+\item Tau Ceti: github.com/TauCetiProject.
+\item lean-lsp-mcp: github.com/oOo0oOo/lean-lsp-mcp. Aristotle: aristotle.harmonic.fun.
+\end{itemize}
+\end{frame}
+
+\end{document}

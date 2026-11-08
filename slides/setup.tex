@@ -1,0 +1,78 @@
+% Setup sheet for participants of "From Paper to Proof".
+% Build: Overleaf with the pdfLaTeX compiler (or pdflatex)
+\documentclass[11pt]{article}
+\usepackage[a4paper, margin=1.75cm]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[sfdefault, lining, semibold, scale=0.92]{FiraSans}
+\usepackage[scale=0.92]{FiraMono}
+\usepackage{amssymb}
+\usepackage{newunicodechar}
+\newunicodechar{∀}{\ensuremath{\forall}}
+\usepackage{xcolor}
+\definecolor{leanblue}{HTML}{2F5DA8}
+\definecolor{muted}{HTML}{6B7280}
+\usepackage{enumitem}
+\setlist{itemsep=2pt, topsep=4pt}
+\usepackage[hidelinks]{hyperref}
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries\color{leanblue}}{\thesection}{0.6em}{}
+\titlespacing*{\section}{0pt}{1.0em}{0.3em}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.4em}
+\pagestyle{empty}
+\sloppy
+
+\begin{document}
+
+{\LARGE\bfseries From Paper to Proof\par}
+\vspace{0.2em}
+{\large Setting up Lean \textperiodcentered{} BGSMath, UPC, November 2026\par}
+\vspace{0.6em}
+
+You do \textbf{not} need a laptop in class: the sessions are demonstrations. You redo the demonstrations and the exercises at home.
+For sessions 1 and 2 a web browser is enough. For sessions 3 and 4, install Lean on your laptop.
+
+\section{In the browser (sessions 1 and 2)}
+
+\begin{enumerate}
+\item Open \href{https://live.lean-lang.org}{\texttt{live.lean-lang.org}}. Nothing to install.
+\item Open a course file, for example \texttt{Exercises1.lean}, in the \texttt{BGSMath} folder of \href{https://github.com/mkaratarakis/from-paper-to-proof}{\texttt{github.com/mkaratarakis/from-paper-to-proof}}. Click \emph{Raw}, then copy all of it.
+\item In the browser, delete what is in the editor and paste the file in.
+\item Wait for the first line, \texttt{import Mathlib}, to load. The first time, this can take a minute or two.
+\item The panel on the right is the \emph{infoview}. Click on a line, and it shows what Lean knows there.
+\end{enumerate}
+To keep your work, copy it back into a file before you close the page.
+
+\section{On your laptop (sessions 3 and 4)}
+
+Allow about 30 minutes, a good internet connection, and a few gigabytes of disk space.
+These are the steps from \href{https://lean-lang.org/install/}{\texttt{lean-lang.org/install}}, where you also find screenshots.
+
+\begin{enumerate}
+\item Install \textbf{VS Code}, from \href{https://code.visualstudio.com}{\texttt{code.visualstudio.com}}.
+\item In VS Code, open the Extensions panel (Ctrl+Shift+X; on a Mac, Cmd+Shift+X). Search for \texttt{lean4} and install \textbf{Lean 4}. A setup guide opens: follow it. It installs Lean.
+\item Create a project with Mathlib: click the \texttt{∀} symbol at the top right of VS Code, then \emph{New Project…} and \emph{Create Project Using Mathlib…}. Choose a folder and a name, for example \texttt{bgsmath-lean}. The first time, Mathlib is downloaded: this takes a while.
+\item Download the course files from the same address: \emph{Code} → \emph{Download ZIP}. Copy the \texttt{.lean} files of its \texttt{BGSMath} folder into the project folder.
+\item \textbf{Test it.} Open \texttt{Test.lean} from the project folder. Click on the line \texttt{\#eval 2 + 2}: the infoview shows \texttt{4}, and nothing is underlined in red.
+\end{enumerate}
+
+\textbf{If Lean starts ``building'' thousands of files}, stop it: close VS Code, open a terminal in the project folder, and run \texttt{lake exe cache get}. Then open VS Code again.
+
+\section{An AI agent (session 3, optional)}
+
+\begin{itemize}
+\item Session 3 shows a coding agent, Claude Code, writing Lean proofs. Other agents work in the same way.
+\item Install instructions: \href{https://code.claude.com/docs}{\texttt{code.claude.com/docs}}. It needs an account, and most plans are paid.
+\item To let the agent see what you see in the infoview, add \textbf{lean-lsp-mcp}: follow \href{https://github.com/oOo0oOo/lean-lsp-mcp}{\texttt{github.com/oOo0oOo/lean-lsp-mcp}}.
+\item No agent? Every exercise can also be done by hand.
+\end{itemize}
+
+\section{If you are stuck}
+
+\begin{itemize}
+\item Use the browser for now: it is enough for sessions 1 and 2.
+\item Ask at the start of the next session, or on the Lean Zulip chat, stream \emph{\#new members}: \href{https://leanprover.zulipchat.com}{\texttt{leanprover.zulipchat.com}}. Questions of every level are welcome.
+\end{itemize}
+
+\end{document}

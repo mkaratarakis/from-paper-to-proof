@@ -1,0 +1,17 @@
+name = "FromPaperToProof"
+defaultTargets = ["BGSMath"]
+
+[leanOptions]
+pp.unicode.fun = true
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "v4.34.1"
+
+# One module per course file: the code on the slides, the exercises, the solutions,
+# the template for session 4 and the live demos. No root module imports them all,
+# because an exercise file and its solutions file declare the same names.
+[[lean_lib]]
+name = "BGSMath"
+globs = ["BGSMath.+"]
