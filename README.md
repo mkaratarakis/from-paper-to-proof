@@ -17,18 +17,16 @@ Four sessions, each a lecture with live demonstrations in Lean. The exercises ar
 
 ```
 BGSMath/          the Lean files: the code on the slides, exercises, solutions, the template, the demos
-slides/           the slides (LaTeX, pdfLaTeX) and the setup sheet for participants
+slides/           the slides of the four sessions and the setup sheet, as PDFs
 notes/            the run sheet for session 1
-pdf/              the compiled slides and the setup sheet
 lakefile.toml     makes this folder a Lean project with Mathlib
-overleaf-zip.sh   builds the zip to upload to Overleaf
 ```
 
 ## The Lean files
 
 This folder is a Lean project with Mathlib, pinned to Mathlib `v4.34.1` (Lean `v4.34.1`).
 
-1. Install Lean: VS Code, the *Lean 4* extension, and its setup guide. `slides/setup.tex` has the steps.
+1. Install Lean: VS Code, the *Lean 4* extension, and its setup guide. `slides/BGSMath-Lean-setup.pdf` has the steps.
 2. Get this folder: `git clone https://github.com/mkaratarakis/from-paper-to-proof`, or *Code → Download ZIP* on GitHub.
 3. In a terminal, in this folder: `lake exe cache get`. This downloads the compiled Mathlib (a few GB) instead of building it.
 4. Open **this folder** in VS Code (File → Open Folder), then `BGSMath/Test.lean`. Click on `#eval 2 + 2`: the infoview shows `4`.
@@ -46,12 +44,4 @@ This folder is a Lean project with Mathlib, pinned to Mathlib `v4.34.1` (Lean `v
 
 ## The slides
 
-`slides/session1.tex` … `session4.tex`, and `setup.tex`. They compile with pdfLaTeX, twice:
-
-```
-cd slides && pdflatex session1.tex && pdflatex session1.tex
-```
-
-The Lean code on the slides is read from `BGSMath/`, so the slides only ever show code that compiles. The shared look is `slides/bgsmathlean.sty`; the Lean highlighting is `slides/lstlean.tex`.
-
-**Overleaf.** Run `./overleaf-zip.sh`, then on Overleaf: New Project → Upload Project → the zip. The compiler is pdfLaTeX, the default; set the main document to `session1.tex` (or another session, or `setup.tex`). If you edit on Overleaf, download the project and copy the changed files back here: this folder is the master copy.
+The slides of each session and the setup sheet are in `slides/`, as PDFs. The Lean code on the slides is read from `BGSMath/`, so the slides only ever show code that compiles.

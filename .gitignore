@@ -1,24 +1,8 @@
 # Lean build
 .lake/
 
-# LaTeX build
-*.aux
-*.log
-*.nav
-*.out
-*.snm
-*.toc
-*.vrb
-*.fls
-*.fdb_latexmk
-*.synctex.gz
-*.listing
-*-snippet.lean
-slides/*.pdf
-
 # Solutions are released after each session: git add -f BGSMath/Solutions1.lean
 BGSMath/Solutions*.lean
 
 # generated
-FromPaperToProof-overleaf.zip
 .DS_Store
