@@ -18,7 +18,7 @@ Four sessions, each a lecture with live demonstrations in Lean. The exercises ar
 ```
 BGSMath/          the Lean files: the code on the slides, exercises, solutions, the template, the demos
 slides/           the slides of the four sessions and the setup sheet, as PDFs
-notes/            the run sheet for session 1
+notes/            the run sheets for sessions 1 and 2
 lakefile.toml     makes this folder a Lean project with Mathlib
 ```
 
@@ -37,10 +37,10 @@ This folder is a Lean project with Mathlib, pinned to Mathlib `v4.34.1` (Lean `v
 | `Exercises1.lean` … `Exercises3.lean` | the exercises, with `sorry` to fill in |
 | `Solutions1.lean` … `Solutions3.lean` | the solutions, added after each session |
 | `MyTheorem.lean` | the template for your own theorem (session 4) |
-| `Demo1.lean` | the live demos of session 1, commented out |
+| `Demo1.lean`, `Demo2.lean` | the live demos of sessions 1 and 2, commented out |
 | `Test.lean` | checks that Lean and Mathlib work |
 
-`lake build` checks every file. Expected warnings: `sorry` in the exercises, in the template and in the FLT statement on the slides; the two unused hypotheses of `draft` in `Session2.lean`, shown on a slide; and the deliberately bad proofs (an `axiom`, a buried `sorry`, `native_decide`, unused hypotheses) in `Session3.lean`, `Exercises3.lean` and `Solutions3.lean`, which are there for the audit slides and exercises.
+`lake build` checks every file. Expected warnings: `sorry` in the exercises, in the template, in the FLT statement on the slides and in the three warm-up statements of `Session2.lean`; the unused hypotheses of the AI drafts `draft1` and `draft` in `Session2.lean`, the first shown on a slide; and the deliberately bad proofs (an `axiom`, a buried `sorry`, `native_decide`, unused hypotheses) in `Session3.lean`, `Exercises3.lean` and `Solutions3.lean`, which are there for the audit slides and exercises.
 
 ## The slides
 
