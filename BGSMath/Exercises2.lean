@@ -7,7 +7,8 @@ Parts 1 and 2: you write the definition or the statement, then prove it.
 Part 3: each statement is true, false, or true for a silly reason.
 Part 4: a statement from your own work.
 
-Each exercise has two ratings out of 5: how hard it is to *state*, and how hard to *prove*.
+Each exercise has two ratings out of 5: how hard it is to *state*,
+and how hard to *prove*.
 With AI tools, the first number is the one to watch.
 -/
 
@@ -17,7 +18,8 @@ open Filter Topology
 
 /-! ## Part 1: definitions
 
-Replace each `sorry` in a `def` by a definition. The examples below it are its tests:
+Replace each `sorry` in a `def` by a definition.
+The examples below it are its tests:
 if your definition is right, you can prove them. -/
 
 -- 1.1  Stating 1/5 · Proving 1/5
