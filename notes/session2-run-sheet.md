@@ -1,6 +1,6 @@
 # Session 2 run sheet — Thursday 12 November
 
-Written for the slides `slides/BGSMath-Lean-session2-draft.pdf` (26 slides).
+Written for the slides `slides/BGSMath-Lean-session2-draft.pdf` (29 slides).
 Clock times assume the same slot as session 1, 15:00–17:00. If the slot differs, shift them.
 
 ## The one rule
@@ -27,6 +27,7 @@ On a slide with a white "hands up" tag, ask the room first, wait, then click: th
 | 15:55 | Writing statements, second half | "Warm-up B" (**Demo 3**) → "Warm-up C: the fix" (**Demo 4**) |
 | 16:10 | Checking a statement | "Is this theorem true?", "The four tests" |
 | 16:20 | Drafting statements with AI | "What an AI can do here" → "The workflow" |
+| 16:35 | Three for fun | "For fun (1)" → "For fun (3)" |
 | 16:40 | Recap, at home, next time | "Today's six bugs" → "Resources" |
 | 16:45 | Questions | |
 
@@ -34,7 +35,7 @@ On a slide with a white "hands up" tag, ask the room first, wait, then click: th
 "the sum of two odd integers is even". Ask for the objects, the assumptions, the claim.
 The answer has the shape of the "Your turn" slide, with `ℤ`, `Odd` and `Even`; it is in `Solutions2.lean`.
 
-**Running late?** Skip "Use Mathlib's definition" and "A prompt that helps".
+**Running late?** Skip "Use Mathlib's definition", "A prompt that helps" and the three "For fun" slides.
 Never skip the warm-up, "The four tests" or "Today's six bugs".
 
 ## The first two minutes
@@ -73,6 +74,9 @@ Draft wording; change it to your own.
 | Spot the problem (3) | Hands up. The paper says a ≤ b, the draft says a < b. No warning. | *But it is still true?* Yes, and weaker: a = b is not covered. |
 | The fix | The right statement, used on a = b = 3. | |
 | The workflow | Paper, AI draft, you check, then the proof. | |
+| For fun (1) | Hands up: what does the line say? Then: it says "if n > 5 then n = 3", and n = 0 does the job. | *What should it be?* `∧` in place of `→`; that statement is false. |
+| For fun (2) | Hands up: why 1? Then: natural-number division, so 1/2, 1/3, … are all 0. | *And with the type?* With `(1 : ℚ)` the first four terms give 25/12. |
+| For fun (3) | Hands up: has Lean refuted Cantor? Then: `Nat.card` of an infinite set is 0, so the line says 0 = 0. | *How do I say it properly?* With cardinals, `Cardinal.mk`; there ℕ is smaller than ℝ. The proof is in `Session2.lean`. |
 | Today's six bugs | Four said something false. Two were true and still wrong. | |
 
 ## The live demos

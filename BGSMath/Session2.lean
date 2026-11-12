@@ -176,6 +176,57 @@ example : 3 ^ 2 ≤ 3 ^ 2 :=
   sq_le_sq_of_le 3 3 (le_refl 3)
 -- !end ai_fixed
 
+/-! ## Three more, for fun
+
+Lean accepts each of these, with a proof or by computation. Each sentence in quotes
+is still wrong: read the Lean line back and see what it really says. -/
+
+-- !begin fun_exists
+-- "There is a number greater than 5 that is equal to 3."
+example : ∃ n : ℕ, n > 5 → n = 3 :=
+  ⟨0, by omega⟩
+-- !end fun_exists
+
+-- !begin fun_exists_fix
+-- What was meant: ∧, not →. This one is false.
+example : ¬ ∃ n : ℕ, n > 5 ∧ n = 3 := by
+  omega
+-- !end fun_exists_fix
+
+-- !begin fun_harmonic
+-- "1 + 1/2 + 1/3 + ⋯ + 1/100"
+#eval ∑ i ∈ Finset.range 100, 1 / (i + 1)
+-- 1
+-- !end fun_harmonic
+
+-- !begin fun_harmonic_fix
+-- With the type written: the first four terms.
+#eval ∑ i ∈ Finset.range 4, (1 : ℚ) / (i + 1)
+-- 25 / 12
+-- !end fun_harmonic_fix
+
+-- The same for every number of terms: on ℕ the sum is always 1.
+example (n : ℕ) : ∑ i ∈ Finset.range (n + 1), 1 / (i + 1) = 1 := by
+  rw [Finset.sum_range_succ']
+  simp
+
+-- !begin fun_card
+-- "ℕ and ℝ have the same number of elements."
+example : Nat.card ℕ = Nat.card ℝ := by
+  simp
+-- !end fun_card
+
+-- !begin fun_card_why
+-- Nat.card of an infinite set is 0.
+example : Nat.card ℕ = 0 := Nat.card_eq_zero_of_infinite
+example : Nat.card ℝ = 0 := Nat.card_eq_zero_of_infinite
+-- !end fun_card_why
+
+-- With cardinals, ℕ is smaller than ℝ.
+example : Cardinal.mk ℕ < Cardinal.mk ℝ := by
+  rw [Cardinal.mk_nat, Cardinal.mk_real]
+  exact Cardinal.aleph0_lt_continuum
+
 /-! ## Further examples, for the exercises
 
 The same ideas with objects from analysis: functions, intervals, limits.
