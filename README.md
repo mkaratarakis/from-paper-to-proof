@@ -18,7 +18,7 @@ Four sessions, each a lecture with live demonstrations in Lean. The exercises ar
 ```
 BGSMath/          the Lean files: the code on the slides, exercises, solutions, the template, the demos
 slides/           the slides of the four sessions and the setup sheet, as PDFs
-notes/            the run sheets for sessions 1 and 2
+notes/            the run sheets for sessions 1 to 3, and the agent runs shown in session 3
 lakefile.toml     makes this folder a Lean project with Mathlib
 ```
 
@@ -37,10 +37,11 @@ This folder is a Lean project with Mathlib, pinned to Mathlib `v4.34.1` (Lean `v
 | `Exercises1.lean` … `Exercises3.lean` | the exercises, with `sorry` to fill in |
 | `Solutions1.lean` … `Solutions3.lean` | the solutions, added after each session |
 | `MyTheorem.lean` | the template for your own theorem (session 4) |
-| `Demo1.lean`, `Demo2.lean` | the live demos of sessions 1 and 2, commented out |
+| `Demo1.lean`, `Demo2.lean`, `Demo3.lean` | the live demos of sessions 1 to 3, commented out |
+| `AgentDemo.lean` | the pinned statement an agent proves live in session 3 |
 | `Test.lean` | checks that Lean and Mathlib work |
 
-`lake build` checks every file. Expected warnings: `sorry` in the exercises, in the template, in the FLT statement on the slides and in the three warm-up statements of `Session2.lean`; the unused hypotheses of the AI drafts `draft1` and `draft` in `Session2.lean`, the first shown on a slide; and the deliberately bad proofs (an `axiom`, a buried `sorry`, `native_decide`, unused hypotheses) in `Session3.lean`, `Exercises3.lean` and `Solutions3.lean`, which are there for the audit slides and exercises.
+`lake build` checks every file. Expected warnings: `sorry` in the exercises, in the template, in the FLT statement on the slides and in the three warm-up statements of `Session2.lean`; the unused hypotheses of the AI drafts `draft1` and `draft` in `Session2.lean`, the first shown on a slide; the `sorry` in `AgentDemo.lean`, which the agent replaces live, and in the false statement of `Session3.lean`; and the deliberately bad proofs (an `axiom`, a buried `sorry`, `native_decide`, unused hypotheses) in `Session3.lean`, `Exercises3.lean` and `Solutions3.lean`, which are there for the audit slides and exercises.
 
 ## The slides
 
