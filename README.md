@@ -1,4 +1,4 @@
-# From Paper to Proof: Formalizing Mathematics in Lean with AI
+# Formalizing Mathematics in Lean with AI
 
 BGSMath graduate course, UPC Barcelona, November 2026. Michail Karatarakis.
 
