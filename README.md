@@ -11,14 +11,14 @@ Four sessions, each a lecture with live demonstrations in Lean. The exercises ar
 | 1 | 10 Nov | Lean and Mathlib: what formalizing means and does not mean; first proofs; finding things in Mathlib; reading a Lean statement |
 | 2 | 12 Nov | From paper to Lean: writing definitions and statements; the usual mistakes; drafting statements with AI and checking them |
 | 3 | 17 Nov | AI tools: what AI did this year; an agent proving a statement, live; checking what it hands back |
-| 4 | 19 Nov | Your own theorem: statements sent in by participants, formalized live; how to do your own at home |
+| 4 | 19 Nov | Four areas, and your own theorem: graph theory, analysis, commutative algebra and category theory, live in Lean; how to do your own theorem at home |
 
 ## What is here
 
 ```
 BGSMath/          the Lean files: the code on the slides, exercises, solutions, the template, the demos
 slides/           the slides of the four sessions and the setup sheet, as PDFs
-notes/            the run sheets for sessions 1 to 3, and the agent runs shown in session 3
+notes/            the run sheets for sessions 1 to 4, and the agent runs shown in session 3
 lakefile.toml     makes this folder a Lean project with Mathlib
 ```
 
@@ -34,8 +34,8 @@ This folder is a Lean project with Mathlib, pinned to Mathlib `v4.34.1` (Lean `v
 | File | What it is |
 |---|---|
 | `Session1.lean` … `Session4.lean` | every code block on the slides, cut out by tag (`-- !begin tag` … `-- !end tag`) |
-| `Exercises1.lean` … `Exercises3.lean` | the exercises, with `sorry` to fill in |
-| `Solutions1.lean` … `Solutions3.lean` | the solutions, added after each session |
+| `Exercises1.lean` … `Exercises4.lean` | the exercises, with `sorry` to fill in; `Exercises4.lean` covers graph theory, analysis, commutative algebra and category theory |
+| `Solutions1.lean` … `Solutions4.lean` | the solutions, added after each session |
 | `MyTheorem.lean` | the template for your own theorem (session 4) |
 | `Demo1.lean`, `Demo2.lean`, `Demo3.lean` | the live demos of sessions 1 to 3, commented out |
 | `AgentDemo.lean` | the pinned statement an agent proves live in session 3 |
