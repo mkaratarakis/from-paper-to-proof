@@ -71,6 +71,31 @@ theorem g1_7 : square.Adj 0 3 ∧ ¬ square.Adj 0 2 := by
 
 -- 1.8  With an AI. Paper: every finite graph has an even number of vertices of odd degree.
 
+/-! ### Step up
+
+A few lines each: a Mathlib fact and a tactic together. Each has a hint. -/
+
+-- 1.9  Paper: every vertex of the 5-cycle has degree 2.
+-- Hint: `decide`.
+theorem g1_9 : ∀ v, (cycleGraph 5).degree v = 2 := by
+  sorry
+
+-- 1.10  Paper: the complete graph on n vertices has n(n - 1)/2 edges, that is, n choose 2.
+-- Hint: `rw [card_edgeFinset_top_eq_card_choose_two, Fintype.card_fin]`.
+theorem g1_10 (n : ℕ) : #(completeGraph (Fin n)).edgeFinset = n.choose 2 := by
+  sorry
+
+-- 1.11  Paper: a path can be coloured with 2 colours.
+-- Hint: `exact?`.
+theorem g1_11 (n : ℕ) : (pathGraph n).Colorable 2 := by
+  sorry
+
+-- 1.12  Paper: if every vertex has degree 3, the number of vertices is even.
+-- Hint: take the handshake lemma (1.4) as `have`, then `simp [h] at this`, then `omega`.
+theorem g1_12 [Fintype V] [DecidableRel G.Adj] (h : ∀ v, G.degree v = 3) :
+    Even (Fintype.card V) := by
+  sorry
+
 end Graphs
 
 /-! ## 2. Analysis
@@ -115,6 +140,37 @@ theorem a2_6 : ∑' n : ℕ, (1 / 2 : ℝ) ^ n = 2 := by
 
 -- 2.7  With an AI. Paper: a continuous function on [0, 1] attains its maximum.
 
+/-! ### Step up
+
+A few lines each: a Mathlib fact and a tactic together. Each has a hint. -/
+
+-- 2.8  Paper: 1 + 1/n → 1.
+-- Hint: from 2.1, with `Tendsto.const_add`; then `simpa`.
+theorem a2_8 : Tendsto (fun n : ℕ => 1 + 1 / (n : ℝ)) atTop (𝓝 1) := by
+  sorry
+
+-- 2.9  Paper: if 0 ≤ uₙ ≤ 1/n for all n, then uₙ → 0 (the squeeze theorem).
+-- Hint: `squeeze_zero`, with 2.1.
+theorem a2_9 (u : ℕ → ℝ) (h0 : ∀ n, 0 ≤ u n) (h1 : ∀ n, u n ≤ 1 / n) :
+    Tendsto u atTop (𝓝 0) := by
+  sorry
+
+-- 2.10  Paper: the derivative of x sin x is sin x + x cos x.
+-- Hint: `simp`.
+theorem a2_10 (x : ℝ) :
+    deriv (fun x => x * Real.sin x) x = Real.sin x + x * Real.cos x := by
+  sorry
+
+-- 2.11  Paper: x ↦ sin(x² + 1) is continuous.
+-- Hint: `fun_prop`.
+theorem a2_11 : Continuous fun x : ℝ => Real.sin (x ^ 2 + 1) := by
+  sorry
+
+-- 2.12  Paper: x ↦ 2x + 1 is strictly increasing.
+-- Hint: `intro a b h`, then `linarith`. (`StrictMono f` means: a < b → f a < f b.)
+theorem a2_12 : StrictMono fun x : ℝ => 2 * x + 1 := by
+  sorry
+
 end Calculus
 
 /-! ## 3. Commutative algebra
@@ -134,37 +190,92 @@ section CommAlg
 variable {R : Type} [CommRing R]
 
 -- 3.1  Paper: (a + b)² = a² + 2ab + b² in any commutative ring.
+-- Hint: `ring`.
 theorem c3_1 (a b : R) : (a + b) ^ 2 = a ^ 2 + 2 * a * b + b ^ 2 := by
   sorry
 
--- 3.2  Paper: 6 ∈ (2) and 3 ∉ (2) in ℤ.
--- Hint: `Ideal.mem_span_singleton` turns membership into divisibility.
-theorem c3_2 : (6 : ℤ) ∈ Ideal.span {2} ∧ (3 : ℤ) ∉ Ideal.span {2} := by
+-- 3.2  Paper: (a + b)(a - b) = a² - b².
+-- Hint: `ring`.
+theorem c3_2 (a b : R) : (a + b) * (a - b) = a ^ 2 - b ^ 2 := by
   sorry
 
--- 3.3  Paper: (2) is a prime ideal of ℤ.
--- Hint: `Ideal.span_singleton_prime`, and `Int.prime_two`.
-theorem c3_3 : (Ideal.span {(2 : ℤ)}).IsPrime := by
+-- 3.3  Paper: in ℤ/5, 3 · 2 = 1, so 3 is invertible.
+-- Hint: `decide`.
+theorem c3_3 : (3 : ZMod 5) * 2 = 1 := by
   sorry
 
--- 3.4  Paper: every maximal ideal is prime.
-theorem c3_4 (I : Ideal R) (h : I.IsMaximal) : I.IsPrime := by
+-- 3.4  Paper: 6 ∈ (2) in ℤ.
+-- Hint: `simp [Ideal.mem_span_singleton]`.
+theorem c3_4 : (6 : ℤ) ∈ Ideal.span {2} := by
   sorry
 
--- 3.5  Paper: a field has only two ideals, 0 and the whole field.
-theorem c3_5 {K : Type} [Field K] (I : Ideal K) : I = ⊥ ∨ I = ⊤ := by
+-- 3.5  Paper: 3 ∉ (2) in ℤ.
+-- Hint: `simp [Ideal.mem_span_singleton]`.
+theorem c3_5 : (3 : ℤ) ∉ Ideal.span {2} := by
   sorry
 
--- 3.6  Paper: in ℤ/5, the inverse of 3 is 2.
-theorem c3_6 : (3 : ZMod 5) * 2 = 1 := by
+-- 3.6  Paper: every ideal contains 0.
+-- Hint: `exact?`.
+theorem c3_6 (I : Ideal R) : (0 : R) ∈ I := by
   sorry
 
--- 3.7  Paper: the kernel of a ring homomorphism is an ideal: it absorbs products.
-theorem c3_7 (f : R →+* R) (x y : R) (hx : x ∈ RingHom.ker f) : x * y ∈ RingHom.ker f := by
+-- 3.7  Paper: every maximal ideal is prime.
+-- Hint: `exact?`.
+theorem c3_7 (I : Ideal R) (h : I.IsMaximal) : I.IsPrime := by
   sorry
 
--- 3.8  With an AI. Paper: the sum of two nilpotent elements is nilpotent.
+-- 3.8  Paper: a field has only two ideals, 0 and the whole field.
+-- Hint: `exact?`.
+theorem c3_8 {K : Type} [Field K] (I : Ideal K) : I = ⊥ ∨ I = ⊤ := by
+  sorry
+
+-- 3.9  With an AI. Paper: the sum of two nilpotent elements is nilpotent.
 -- Try `exact?` on your statement first. Why does it fail?
+
+/-! ### Step up
+
+One tactic each, as before: mostly `exact?`. -/
+
+-- 3.10  Paper: ℤ/6 has zero divisors.
+-- Hint: `decide`.
+theorem c3_10 : ∃ a b : ZMod 6, a ≠ 0 ∧ b ≠ 0 ∧ a * b = 0 := by
+  sorry
+
+-- 3.11  Paper: an ideal is closed under addition.
+-- Hint: `exact?`.
+theorem c3_11 (I : Ideal R) (a b : R) (ha : a ∈ I) (hb : b ∈ I) : a + b ∈ I := by
+  sorry
+
+-- 3.12  Paper: the kernel of a ring homomorphism absorbs products.
+-- Hint: `exact?`.
+theorem c3_12 (f : R →+* R) (x y : R) (hx : x ∈ RingHom.ker f) : x * y ∈ RingHom.ker f := by
+  sorry
+
+-- 3.13  Paper: if x² = 0, then x is nilpotent.
+-- Hint: `exact?`.
+theorem c3_13 (x : R) (h : x ^ 2 = 0) : IsNilpotent x := by
+  sorry
+
+-- 3.14  Paper: the units of ℤ are 1 and -1.
+-- Hint: `exact?`.
+theorem c3_14 (u : ℤ) : IsUnit u ↔ u = 1 ∨ u = -1 := by
+  sorry
+
+-- 3.15  Paper: IJ ⊆ I ∩ J.
+-- Hint: `exact?`.
+theorem c3_15 (I J : Ideal R) : I * J ≤ I ⊓ J := by
+  sorry
+
+-- 3.16  Paper: I ⊆ I + J.
+-- Hint: `simp`.
+theorem c3_16 (I J : Ideal R) : I ≤ I ⊔ J := by
+  sorry
+
+-- 3.17  Paper: a ring homomorphism from a field to a nonzero ring is injective.
+-- Hint: `exact?`.
+theorem c3_17 {K S : Type} [Field K] [CommRing S] [Nontrivial S] (f : K →+* S) :
+    Function.Injective f := by
+  sorry
 
 end CommAlg
 
@@ -219,6 +330,35 @@ theorem k4_7 {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) [Mono f] [Mono g] : Mono (f
   sorry
 
 -- 4.8  With an AI. Paper: a functor sends isomorphisms to isomorphisms.
+
+/-! ### Step up
+
+A few lines each: a Mathlib fact and a tactic together. Each has a hint. -/
+
+-- 4.9  Paper: an isomorphism is a monomorphism and an epimorphism.
+-- Hint: `exact ⟨inferInstance, inferInstance⟩`.
+theorem k4_9 {X Y : C} (e : X ≅ Y) : Mono e.hom ∧ Epi e.hom := by
+  sorry
+
+-- 4.10  Paper: a composition of epimorphisms is an epimorphism.
+-- Hint: `inferInstance`, as in 4.7.
+theorem k4_10 {X Y Z : C} (f : X ⟶ Y) (g : Y ⟶ Z) [Epi f] [Epi g] : Epi (f ≫ g) := by
+  sorry
+
+-- 4.11  Construct, do not prove: a functor turns an isomorphism X ≅ Y into F X ≅ F Y.
+-- Hint: `F.mapIso`. The answer is an isomorphism, not a proof, so this is a `def`.
+def k4_11 (F : C ⥤ D) {X Y : C} (e : X ≅ Y) : F.obj X ≅ F.obj Y :=
+  sorry
+
+-- 4.12  Paper: two morphisms into a terminal object are equal.
+-- Hint: `exact?`.
+theorem k4_12 {T X : C} (h : Limits.IsTerminal T) (f g : X ⟶ T) : f = g := by
+  sorry
+
+-- 4.13  Paper: in the category of sets, the epimorphisms are the surjective functions.
+-- Hint: `exact?`.
+theorem k4_13 {X Y : Type} (f : X ⟶ Y) : Epi f ↔ Function.Surjective f := by
+  sorry
 
 end Cats
 

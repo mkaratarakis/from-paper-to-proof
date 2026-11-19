@@ -131,10 +131,9 @@ variable {R : Type} [CommRing R]
 
 -- 6 ∈ (2) in ℤ: membership is divisibility.
 example : (6 : ℤ) ∈ Ideal.span {2} := by
-  rw [Ideal.mem_span_singleton]
-  norm_num
+  simp [Ideal.mem_span_singleton]
 
--- Maximal ideals are prime.
+-- Maximal ideals are prime: found by exact?
 example (I : Ideal R) (h : I.IsMaximal) :
     I.IsPrime :=
   h.isPrime
